@@ -6,6 +6,8 @@ description: "ফ্রিজে পড়ে থাকা অবহেলার �
 hero: "/images/Golang-Basics.png"
 tags: ["ranna"]
 layout: "../../layouts/BlogPostLayout.astro"
+categories:
+  - Tutorials
 ---
 
 ##উপকরণ :

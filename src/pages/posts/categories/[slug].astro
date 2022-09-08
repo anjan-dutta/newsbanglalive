@@ -1,0 +1,88 @@
+---
+import BaseHead from "../../../components/Head/BaseHead.astro";
+import Nav from "../../../components/Nav.astro";
+import HomeHeader from "../../../components/HomeHeader.astro";
+import Card from "../../../components/Card.astro";
+import Footer from "../../../components/Footer/Footer.astro";
+import Paginator from "../../../components/Paginator.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { generateCategoryData } from "../../../utils/helpers";
+export async function getStaticPaths() {
+  const allPosts = await Astro.glob("../*.md");
+  const sortedPosts = allPosts.sort(
+    (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
+  );
+  const allCategoriesUnique = new Set();
+  sortedPosts.forEach((post) => {
+    post.frontmatter.categories &&
+      post.frontmatter.categories.map((category) => {
+        allCategoriesUnique.add(category);
+      });
+  });
+  const allCategoriesData = generateCategoryData(allCategoriesUnique);
+  // map through the categories array
+  return allCategoriesData.map((category) => {
+    // filter the posts that match the given category
+    const posts = sortedPosts.filter((post) =>
+      post.frontmatter.categories.includes(category.name)
+    );
+    return {
+      params: { slug: category.slug },
+      props: {
+        category: category.name,
+        posts: posts,
+      },
+    };
+  });
+}
+const { category, posts } = Astro.props;
+
+const title = `Blog Posts Tagged with ${category}`;
+---
+
+<!-- <BaseLayout title={title}>
+  <div>
+    <h1>{title}</h1>
+    <ul>
+      {
+        posts.map((post) => (
+          <li>
+            <a href={post.url}>{post.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout> -->
+
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={title} />
+  </head>
+
+  <body class="bg-white text-black font-body leading-normal personality-casual">
+    <Nav />
+
+    <main class="py-12 lg:py-20">
+      <article class="max-w-6xl mx-auto px-3">
+        <HomeHeader title={title} description={title} />
+        <section
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-8"
+          data-test="articles-section"
+        >
+          {
+            posts.map((p) => (
+              <div class="col-span-1">
+                <Card post={p} />
+              </div>
+            ))
+          }
+        </section>
+      </article>
+    </main>
+    <!-- <Paginator page={page} /> -->
+    <Footer />
+  </body>
+</html>
+

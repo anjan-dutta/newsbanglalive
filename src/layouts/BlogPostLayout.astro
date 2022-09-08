@@ -1,23 +1,37 @@
 ---
-import Nav from '../components/Nav.astro';
-import BaseHead from '../components/Head/BaseHead.astro';
-import BlogPost from '../components/BlogPost.astro';
+import Nav from "../components/Nav.astro";
+import BaseHead from "../components/Head/BaseHead.astro";
+import BlogPost from "../components/BlogPost.astro";
+import { generateCategoryData } from "../utils/helpers.js";
 
-const {content} = Astro.props;
-const {title, description, date, hero, youtube} = content;
+const { content } = Astro.props;
+const { title, description, date, hero, youtube } = content;
+const allCategoriesData = generateCategoryData(
+  content.categories ? content.categories : []
+);
 ---
-<html lang={ content.lang || 'en' }>
+
+<html lang={content.lang || "en"}>
   <head>
     <BaseHead title={title} description={description} />
   </head>
 
   <body>
     <Nav />
+    <p>Categories</p>
+    <ul>
+      {
+        allCategoriesData.map((category) => (
+          <li>
+            <a href={`/posts/categories/${category.slug}`}>{category.name}</a>
+          </li>
+        ))
+      }
+    </ul>
     <main class="py-12 lg:py-20">
-      <BlogPost title={title} hero={hero} date={date} youtube={youtube} >
+      <BlogPost title={title} hero={hero} date={date} youtube={youtube}>
         <slot />
       </BlogPost>
     </main>
   </body>
 </html>
-

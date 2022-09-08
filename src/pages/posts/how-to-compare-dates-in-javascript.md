@@ -6,6 +6,9 @@ description: "How to compare dates in JavaScript natively using the Date Object,
 hero: "/images/javascript-logo-banner.jpg"
 tags: ["javascript"]
 layout: "../../layouts/BlogPostLayout.astro"
+categories:
+  - Tutorials
+  - Astro
 ---
 
 Working with dates in JavaScript can be tricky to say the least. Recently I needed to compare two dates with one another to see which was greater than, less than, etc.

@@ -6,6 +6,9 @@ description: "In this article, I am going to show you how to install & setup Go 
 hero: "/images/Golang-Basics.png"
 tags: ["go"]
 layout: "../../layouts/BlogPostLayout.astro"
+categories:
+  - Tutorials
+  - Astro
 ---
 
 In this article, I am going to show you how to install & setup Go on Mac and also setup/configure VS Code for writing Go code.

@@ -1,0 +1,74 @@
+---
+import BaseHead from "../../../components/Head/BaseHead.astro";
+import Nav from "../../../components/Nav.astro";
+import HomeHeader from "../../../components/HomeHeader.astro";
+import Card from "../../../components/Card.astro";
+import Footer from "../../../components/Footer/Footer.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { generateCategoryData } from "../../../utils/helpers";
+const allPosts = await Astro.glob("../*.md");
+const allCategoriesUnique = new Set();
+allPosts.forEach((post) => {
+  post.frontmatter.categories &&
+    post.frontmatter.categories.map((category) => {
+      allCategoriesUnique.add(category);
+    });
+});
+// console.log(allCategoriesUnique);
+const allCategoriesData = generateCategoryData(allCategoriesUnique);
+// console.log(allCategoriesData);
+const title = "Blog Categories";
+---
+
+<!-- <BaseLayout title={title}>
+  <div>
+    <h1>{title}</h1>
+    <ul>
+      {
+        allCategoriesData.map((category) => (
+          <li>
+            <a href={`/posts/categories/${category.slug}`}>{category.name}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout> -->
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={title} />
+  </head>
+
+  <body class="bg-white text-black font-body leading-normal personality-casual">
+    <Nav />
+
+    <main class="py-12 lg:py-20">
+      <article class="max-w-6xl mx-auto px-3">
+        <HomeHeader title={title} description={title} />
+        <section
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-8"
+          data-test="articles-section"
+        >
+          {
+            allCategoriesData.map((category) => (
+            <a href={`/posts/categories/${category.slug}`}
+              class="transition-all duration-75 ease-in-out h-full block relative top-0 hover:-top-2 shadow-lg hover:shadow-xl bg-white rounded-xl overflow-hidden"
+              data-test="article-card">
+              <div class="py-6 px-8">
+                <h2 class="font-bold text-2xl leading-tight">
+                  {category.name}
+                </h2>
+              </div>
+            </a>
+            ))
+          }
+        </section>
+      </article>
+    </main>
+    <!-- <Paginator page={page} /> -->
+    <Footer />
+  </body>
+</html>
+
+

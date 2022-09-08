@@ -1,0 +1,16 @@
+---
+// Component imports and setup JavaScript go here!
+import BaseHead from "../components/Head/BaseHead.astro";
+const title = "Hi";
+const description = "Desc";
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+
+  <body>
+    <slot />
+  </body>
+</html>

@@ -5,6 +5,9 @@ pubDate: "2021-06-08"
 hero: "/images/introducing-astro.jpg"
 tags: ["astro"]
 layout: "../../layouts/BlogPostLayout.astro"
+categories:
+  - Tutorials
+  - Astro
 ---
 
 There's a simple secret to building a faster website — _just ship less_.
